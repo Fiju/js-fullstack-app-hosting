@@ -42,7 +42,7 @@ jobs:
       - run:
           name: Deploy Server
           command: |-
-            aws s3 cp ./www/app.zip s3://$BE_BUCKET/
+            aws s3 cp ./www/app.zip s3://$EB_BUCKET/
             aws elasticbeanstalk create-application-version --application-name $EB_APP --version-label <<pipeline.git.revision>> --source-bundle S3Bucket="$EB_BUCKET",S3Key="app.zip"
             aws elasticbeanstalk update-environment --application-name $EB_APP --environment-name $EB_APP_ENV --version-label <<pipeline.git.revision>>
 
