@@ -55,4 +55,4 @@ workflows:
   build_and_deploy:
     jobs:
       - frontend
-      - api
+      # - api
