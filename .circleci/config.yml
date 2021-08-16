@@ -18,34 +18,23 @@ jobs:
       - run:
           name: Deploy Frontend
           command: aws s3 cp --recursive --acl public-read ./www s3://$FE_BUCKET/
-  build:
-    docker:
-      - image: "cimg/base:stable"
+  api:
+    working_directory: ~/app/udagram-api
+    executor: node/default
     steps:
-      - node/install
-      - checkout
+      - checkout:
+          path: ~/app
+      - node/install-packages:
+          app-dir: ~/app/udagram-api
       - aws-cli/setup
-      # - run:
-      #     name: Front-End Install
-      #     command: |
-      #       npm run frontend:install
       - run:
-          name: Back-End Install
-          command: |
-            npm run backend:install
-      # - run:
-      #     name: Front-End Build
-      #     command: |
-      #       npm run frontend:build
-      # - run:
-      #     name: Deploy Frontend
-      #     command: aws s3 cp --recursive --acl public-read ./www s3://$FE_BUCKET/
+          name: Build and Archive Server
+          command: |-
+            npm run build
+            printenv > www/.env
+            npm run zip
       - run:
-          name: Back-End Build
-          command: |
-            npm run backend:build
-      - run:
-          name: Deploy Server
+          name: Deploy API
           command: |-
             aws s3 cp ./www/app.zip s3://$BE_BUCKET/
             aws elasticbeanstalk create-application-version --application-name $EB_APP --version-label <<pipeline.git.revision>> --source-bundle S3Bucket="$EB_BUCKET",S3Key="app.zip"
@@ -55,4 +44,4 @@ workflows:
   build_and_deploy:
     jobs:
       - frontend
-      # - api
+      - api
