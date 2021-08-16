@@ -9,6 +9,7 @@ jobs:
     steps:
       - node/install
       - checkout
+      - aws-cli/setup
       - run:
           name: Front-End Install
           command: |
@@ -22,6 +23,15 @@ jobs:
           command: |
             npm run frontend:build
       - run:
+          name: Deploy Frontend
+          command: aws s3 cp --recursive --acl public-read ./www $FE_BUCKET
+      - run:
           name: Back-End Build
           command: |
             npm run backend:build
+      - run:
+          name: Deploy Server
+          command: |-
+            aws s3 cp ./www/app.zip $BE_BUCKET
+            aws elasticbeanstalk create-application-version --application-name $EB_APP --version-label <<pipeline.git.revision>> --source-bundle S3Bucket="$EB_BUCKET",S3Key="app.zip"
+            aws elasticbeanstalk update-environment --application-name $EB_APP --environment-name $EB_APP_ENV --version-label <<pipeline.git.revision>>
