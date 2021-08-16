@@ -28,6 +28,11 @@ jobs:
           app-dir: ~/app/udagram-api
       - aws-cli/setup
       - run:
+          name: Back-End Install
+          command: |
+            npm install
+      - aws-cli/install
+      - run:
           name: Build and Archive Server
           command: |-
             npm run build
