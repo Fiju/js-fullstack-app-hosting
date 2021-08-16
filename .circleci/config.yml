@@ -19,8 +19,10 @@ jobs:
           name: Deploy Frontend
           command: aws s3 cp --recursive --acl public-read ./www s3://$FE_BUCKET/
   api:
-    docker:
-      - image: "cimg/base:stable"
+    working_directory: ~/app/udagram-api
+    executor: node/default
+    # docker:
+    #   - image: "cimg/base:stable"
     steps:
       - checkout:
           path: ~/app
