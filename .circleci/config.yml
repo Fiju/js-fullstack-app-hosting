@@ -31,7 +31,6 @@ jobs:
           name: Build and Archive Server
           command: |-
             npm run build
-            printenv > www/.env
             npm run zip
       - run:
           name: Deploy API
