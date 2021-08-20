@@ -13,67 +13,23 @@ jobs:
       - aws-cli/setup
       - eb/setup
       - run:
-        name: Frontend dependencies
-        command: npm run frontend:install
+          name: Frontend dependencies
+          command: npm run frontend:install
       - run:
-        name: Frontend build
-        command: npm run frontend:build
+          name: Frontend build
+          command: npm run frontend:build
       - run:
           name: Deploy Frontend
           command: npm run frontend:deploy
       - run:
-        name: Backend dependencies
-        command: npm run backend:install
+          name: Backend dependencies
+          command: npm run backend:install
       - run:
-        name: Backend build
-        command: npm run backend:build
+          name: Backend build
+          command: npm run backend:build
       - run:
-        name: Backend archive
-        command: npm run backend:archive
+          name: Backend archive
+          command: npm run backend:archive
       - run:
-        name: Deploy Backend Application
-        command: npm run backend:deploy
-# Keeping this code here for reference of different approach
-#   frontend:
-#     working_directory: ~/app/udagram-frontend
-#     executor: node/default
-#     steps:
-#       - checkout:
-#           path: ~/app
-#       - node/install-packages:
-#           app-dir: ~/app/udagram-frontend
-#       - aws-cli/setup
-#       - run:
-#           name: Build Frontend
-#           command: npm run build
-#       - run:
-#           name: Deploy Frontend
-#           command: aws s3 cp --recursive --acl public-read ./www s3://$FE_BUCKET/
-#   api:
-#     working_directory: ~/app/udagram-api
-#     executor: node/default
-#     # docker:
-#     #   - image: "cimg/base:stable"
-#     steps:
-#       - checkout:
-#           path: ~/app
-#       - node/install-packages:
-#           app-dir: ~/app/udagram-api
-#       - aws-cli/setup
-#       - run:
-#           name: Back-End Build
-#           command: |
-#             npm run build
-#             npm run zip
-#       - run:
-#           name: Deploy Server
-#           command: |-
-#             aws s3 cp ./www/app.zip s3://$EB_BUCKET/
-#             aws elasticbeanstalk create-application-version --application-name $EB_APP --version-label <<pipeline.git.revision>> --source-bundle S3Bucket="$EB_BUCKET",S3Key="app.zip"
-#             aws elasticbeanstalk update-environment --application-name $EB_APP --environment-name $EB_APP_ENV --version-label <<pipeline.git.revision>>
-
-# workflows:
-#   build_and_deploy:
-#     jobs:
-#       - frontend
-#       - api
+          name: Deploy Backend Application
+          command: npm run backend:deploy
