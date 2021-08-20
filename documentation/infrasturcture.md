@@ -18,4 +18,4 @@ The frontend for the app is developed on Angular. The build is made and pushed t
 
 The is currently accessible from: `http://udagram-fe-s3.s3-website-us-east-1.amazonaws.com`
 
-![Architecture](images/infrasturcture.jpg)
+![Architecture](images/infrastructure.jpg)
