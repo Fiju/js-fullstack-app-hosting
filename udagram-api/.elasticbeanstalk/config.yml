@@ -1,5 +1,5 @@
 branch-defaults:
-  master:
+  default:
     environment: Demo-env
 environment-defaults:
   Demo-env:
