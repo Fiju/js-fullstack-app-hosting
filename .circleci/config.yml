@@ -27,9 +27,9 @@ jobs:
       - run:
           name: Backend build
           command: npm run backend:build
-      - run:
-          name: Backend archive
-          command: npm run backend:archive
+      # - run:
+      #     name: Backend archive
+      #     command: npm run backend:archive
       - run:
           name: Deploy Backend Application
           command: npm run backend:deploy
